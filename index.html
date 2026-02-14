@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<title>Inside a Computer's Brain</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- SCENE 0 : BOOT SCREEN -->
+<section id="scene0" class="scene active boot">
+    <div id="bootText"></div>
+</section>
+
+
+<!-- SCENE 1 : INTRO -->
+<section id="scene1" class="scene">
+    <h1 id="mainTitle" class="fancyTitle">Inside a Computer's Brain</h1>
+    <h3>This project visually shows what happens inside a computer when you press a key.</h3>
+
+    <button id="startBtn">Start</button>
+
+    <br><br>
+    <label>Mode:</label>
+    <select id="mode">
+        <option value="normal">Normal</option>
+        <option value="slow">Slow motion (learning)</option>
+        <option value="fast">Fast (demo)</option>
+    </select>
+</section>
+
+
+<!-- SCENE 2 : INPUT -->
+<section id="scene2" class="scene">
+    <h2>Type any letter</h2>
+    <input id="userInput" maxlength="1" placeholder="Type here..." />
+</section>
+
+
+<!-- SCENE 3 : ANIMATION -->
+<section id="scene3" class="scene">
+
+    <div id="animationBox">
+
+        <div class="node" id="nodeKeyboard">Keyboard</div>
+        <div class="node" id="nodeRAM">RAM</div>
+
+        <!-- CPU now contains internal working display -->
+        <div class="node" id="nodeCPU">
+            CPU
+            <div id="cpuInside"></div>
+        </div>
+
+        <div class="node" id="nodeScreen">Screen</div>
+        <div id="packet"></div>
+
+    </div>
+
+    <!-- NEW: ASCII / Binary visual conversion -->
+    <div id="conversionPanel">
+        <div id="asciiVis">ASCII: -</div>
+        <div id="binaryVis">Binary: --------</div>
+    </div>
+
+    <div id="stageText">Waiting for input...</div>
+    <div id="explainBox"></div>
+
+    <div id="progressBar">
+        <div id="progressFill"></div>
+    </div>
+
+    <button id="restartBtn">Try Another Key</button>
+    <button id="homeBtn" class="secondaryBtn">Go To Start Page</button>
+
+</section>
+
+<script src="script.js" defer></script>
+</body>
+</html>

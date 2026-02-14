@@ -1,0 +1,369 @@
+/* ================= GLOBAL BACKGROUND ================= */
+
+body{
+    margin:0;
+    font-family:'Orbitron', sans-serif;
+    color:white;
+    overflow-x:hidden;
+
+    background:
+        linear-gradient(to right, rgba(2,6,23,0.70) 20%, rgba(2,6,23,0.35) 45%, rgba(2,6,23,0.90) 75%),
+        url("images/robot.png");
+
+    background-repeat:no-repeat;
+    background-position:left center;
+    background-size:cover;
+    background-attachment:fixed;
+}
+
+/* moving grid */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        linear-gradient(#22c55e22 1px, transparent 1px),
+        linear-gradient(90deg,#22c55e22 1px, transparent 1px);
+    background-size:60px 60px;
+    animation:gridMove 25s linear infinite;
+    pointer-events:none;
+    z-index:-1;
+}
+
+@keyframes gridMove{
+    from{transform:translate(0,0);}
+    to{transform:translate(-60px,-60px);}
+}
+
+/* ================= SCENES ================= */
+
+.scene{
+    position:fixed;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    box-sizing:border-box;
+    background:transparent;
+}
+.scene.active{ display:flex; }
+
+#scene3{ overflow-y:auto; }
+
+/* ================= NODES ================= */
+
+#animationBox{
+    position:relative;
+    width:min(900px,90vw);
+    height:420px;
+    margin-top:40px;
+}
+
+.node{
+    position:absolute;
+    padding:12px 20px;
+    border-radius:12px;
+    background:#020617;
+    border:2px solid #22c55e;
+    box-shadow:0 0 15px #22c55e55;
+    font-size:18px;
+}
+
+#nodeKeyboard{ left:8%; top:45%; }
+#nodeRAM{ left:50%; top:15%; transform:translateX(-50%); }
+#nodeCPU{ right:8%; top:45%; }
+#nodeScreen{ left:50%; bottom:8%; transform:translateX(-50%); }
+
+/* ================= CPU INTERNAL DISPLAY ================= */
+
+#cpuInside{
+    margin-top:6px;
+    font-family:monospace;
+    font-size:12px;
+    color:#22c55e;
+    opacity:0;
+    text-align:center;
+}
+
+.cpuActive{
+    animation:cpuBlink .25s infinite alternate;
+}
+
+@keyframes cpuBlink{
+    from{opacity:.4;}
+    to{opacity:1;}
+}
+
+/* ================= PACKET ================= */
+
+#packet{
+    position:absolute;
+    width:18px;
+    height:18px;
+    background:#22c55e;
+    border-radius:50%;
+    box-shadow:0 0 15px #22c55e,0 0 35px #22c55e;
+    transition:all 1s linear;
+}
+
+/* ================= ASCII BINARY PANEL ================= */
+
+#conversionPanel{
+    margin-top:15px;
+    display:flex;
+    gap:30px;
+    font-family:monospace;
+}
+
+#asciiVis,#binaryVis{
+    border:1px solid #22c55e;
+    padding:8px 14px;
+    border-radius:8px;
+    background:#020617;
+}
+
+/* ================= TEXT ================= */
+
+#stageText{
+    font-size:26px;
+    margin-top:20px;
+}
+
+#explainBox{
+    margin-top:15px;
+    padding:15px;
+    background:#020617;
+    border:1px solid #22c55e;
+    border-radius:10px;
+    max-width:600px;
+}
+
+/* ================= BOOT SCREEN ================= */
+
+.boot{
+    background:black;
+    color:#22c55e;
+    font-family:monospace;
+    justify-content:flex-start;
+    align-items:flex-start;
+    padding:40px;
+}
+
+#bootText{
+    white-space:pre-line;
+    font-size:18px;
+    text-shadow:0 0 6px #22c55e;
+}
+/* FORCE CUSTOM BUTTON STYLE (OVERRIDE BROWSER) */
+button{
+    appearance:none;
+    -webkit-appearance:none;
+    border:none;
+    outline:none;
+
+    padding:12px 28px;
+    background:#22c55e;
+    color:#02140a;
+    font-weight:bold;
+    font-size:16px;
+    border-radius:12px;
+    cursor:pointer;
+
+    box-shadow:0 0 12px #22c55e66, inset 0 0 8px #22c55e55;
+    transition:all .25s ease;
+}
+
+button:hover{
+    transform:translateY(-2px) scale(1.05);
+    box-shadow:0 0 22px #22c55e, inset 0 0 12px #22c55e88;
+}
+
+button:active{
+    transform:scale(.96);
+}
+#userInput{
+    font-size:26px;
+    padding:16px;
+    width:260px;
+}
+/* ===== DATA FLOW TRAIL ===== */
+/* ===== ELECTRIC DATA WIRE ===== */
+.wire{
+    position:absolute;
+    height:4px;
+    background:rgba(34,197,94,0.25);
+    border-radius:4px;
+    overflow:hidden;
+}
+
+/* moving current */
+.wire::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0px,
+            transparent 16px,
+            #22c55e 18px,
+            #22c55e 24px
+        );
+    animation:flow 0.6s linear infinite;
+    filter:drop-shadow(0 0 6px #22c55e)
+           drop-shadow(0 0 14px #22c55e);
+}
+
+/* arrows riding the current */
+.wire::before{
+    content:"➤";
+    position:absolute;
+    top:-12px;
+    left:0;
+    font-size:14px;
+    color:#22c55e;
+    text-shadow:0 0 8px #22c55e,0 0 18px #22c55e;
+    animation:arrowMove 0.6s linear infinite;
+}
+
+@keyframes flow{
+    from{background-position:0 0;}
+    to{background-position:40px 0;}
+}
+
+@keyframes arrowMove{
+    from{left:0;}
+    to{left:100%;}
+}
+/* ================= DATA FLOW ARROW ================= */
+
+.wire{
+    position:absolute;
+    height:3px;
+    background:linear-gradient(90deg,#22c55e00,#22c55e,#22c55e);
+    box-shadow:0 0 8px #22c55e;
+    pointer-events:none;
+}
+
+/* moving arrow head */
+.wire::after{
+    content:"";
+    position:absolute;
+    right:-8px;
+    top:50%;
+    transform:translateY(-50%);
+    border-left:10px solid #22c55e;
+    border-top:6px solid transparent;
+    border-bottom:6px solid transparent;
+    filter:drop-shadow(0 0 6px #22c55e);
+}
+
+/* travelling energy pulse */
+.wire::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:40px;
+    background:linear-gradient(90deg,transparent,#a7f3d0,transparent);
+    animation:flow 0.6s linear infinite;
+}
+
+@keyframes flow{
+    from{ transform:translateX(-40px); }
+    to{ transform:translateX(100%); }
+}
+#stageText::after{
+    content:"|";
+    margin-left:6px;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+#explainBox{
+    margin-bottom: 34px;
+}
+
+#restartBtn{
+    margin-top: 6px;
+    padding: 14px 30px;
+    font-size: 17px;
+}
+/* ===== BEAUTIFUL TITLE ===== */
+
+.fancyTitle{
+    font-size: clamp(34px,4.2vw,58px);
+    font-weight:700;
+    letter-spacing:4px;
+    text-align:center;
+
+    background: linear-gradient(
+        90deg,
+        #22c55e,   /* green */
+        #00eaff,   /* cyan */
+        #3b82f6,   /* blue */
+        #a855f7,   /* purple */
+        #ff3b3b,   /* red (NEW) */
+        #ff8a00,   /* orange */
+        #22c55e
+    );
+
+    background-size:500% auto;   /* smoother long cycle */
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 2px 6px rgba(0,0,0,.45),
+        0 4px 14px rgba(0,0,0,.35),
+        0 0 16px rgba(34,197,94,.25),
+        0 0 30px rgba(0,234,255,.18);
+
+    animation:
+        gradientMove 8s linear infinite,
+        floatUp 3s ease-in-out infinite alternate,
+        titlePop 1s ease forwards;
+}
+
+/* gradient flowing */
+@keyframes gradientMove{
+    0%{background-position:0% center;}
+    100%{background-position:300% center;}
+}
+
+/* gentle floating */
+@keyframes floatUp{
+    from{transform:translateY(0px);}
+    to{transform:translateY(-10px);}
+}
+
+/* first pop animation */
+@keyframes titlePop{
+    0%{
+        opacity:0;
+        transform:translateY(40px) scale(.8);
+        filter:blur(6px);
+    }
+    70%{
+        opacity:1;
+        transform:translateY(-6px) scale(1.05);
+        filter:blur(0);
+    }
+    100%{
+        transform:translateY(0) scale(1);
+    }
+}
+
+.secondaryBtn{
+    background:#334155;
+    color:white;
+    margin-top:12px;
+}
+
+.secondaryBtn:hover{
+    background:#475569;
+}
