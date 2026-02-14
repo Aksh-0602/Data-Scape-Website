@@ -367,3 +367,17 @@ button:active{
 .secondaryBtn:hover{
     background:#475569;
 }
+#hint{
+    margin-top:18px;
+    font-size:15px;
+    opacity:.75;
+    line-height:1.6;
+    text-align:center;
+    color:#9ca3af;
+    animation:hintGlow 2.5s infinite alternate;
+}
+
+@keyframes hintGlow{
+    from{ opacity:.45; }
+    to{ opacity:.9; }
+}
